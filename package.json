@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "nodemon dist/app.js"
+  },
+  "keywords": [],
+  "author": "Srirag H",
+  "license": "ISC",
+  "description": "The backend/server of the creuto job board.",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "nodemon": "^3.1.10"
+  }
+}
