@@ -1,22 +1,32 @@
-// app.ts or index.ts
+import dotenv from "dotenv";
+dotenv.config();
 
 import express from "express";
-import bodyParser from "body-parser";
+// No need to import body-parser separately if you use express's built-in
 import errorHandlingMiddleware from "./middlewares/error-handler";
-import jobsRouter from "./routes/jobs.route"; // assuming default export
+import jobsRouter from "./routes/jobs.route"; 
+import { connectDB } from "./config/mongo";
 
 const app = express();
-const port = 5555;
+const port = process.env.PORT || 5555;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Register routes
 app.use("/jobs", jobsRouter);
 
-// Global error handling middleware
 app.use(errorHandlingMiddleware);
 
-app.listen(port, () => {
-  console.log(`App listening @ http://localhost:${port}`);
-});
+async function startServer() {
+  try {
+    await connectDB();
+    app.listen(port, () => {
+      console.log(`App listening @ http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("Failed to connect to DB", err);
+    process.exit(1);
+  }
+}
+
+startServer();
