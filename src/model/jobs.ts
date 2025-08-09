@@ -36,7 +36,7 @@ const jobSchema = new Schema<JobDocument>({
   companyLocation: { type: String, required: true },
   description: { type: String, required: true },
   skills: { type: [skillSchema], required: true }
-});
+}, { timestamps: true });
 
 const JobModel = mongoose.model<JobDocument>("Job", jobSchema);
 
