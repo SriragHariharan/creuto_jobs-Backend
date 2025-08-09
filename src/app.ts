@@ -2,16 +2,23 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
-// No need to import body-parser separately if you use express's built-in
 import errorHandlingMiddleware from "./middlewares/error-handler";
 import jobsRouter from "./routes/jobs.route"; 
 import { connectDB } from "./config/mongo";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 5555;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+    cors({
+        origin: process.env.FRONTEND_URL,
+        credentials: true
+    })
+);
 
 app.use("/jobs", jobsRouter);
 
