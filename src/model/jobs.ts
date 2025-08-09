@@ -1,6 +1,11 @@
 // src/models/job.model.ts
 import mongoose, { Schema, Document } from "mongoose";
 
+interface Skill {
+  id: string;
+  skill: string;
+}
+
 export interface JobDocument extends Document {
   jobTitle: string;
   company: string;
@@ -10,8 +15,16 @@ export interface JobDocument extends Document {
   workLocation: string;
   companyLocation: string;
   description: string;
-  skills: string[];
+  skills: Skill[];
 }
+
+const skillSchema = new Schema<Skill>(
+  {
+    id: { type: String, required: true },
+    skill: { type: String, required: true }
+  },
+  { _id: false } // prevents Mongoose from adding its own _id to each skill
+);
 
 const jobSchema = new Schema<JobDocument>({
   jobTitle: { type: String, required: true },
@@ -22,7 +35,7 @@ const jobSchema = new Schema<JobDocument>({
   workLocation: { type: String, required: true },
   companyLocation: { type: String, required: true },
   description: { type: String, required: true },
-  skills: { type: [String], required: true },
+  skills: { type: [skillSchema], required: true }
 });
 
 const JobModel = mongoose.model<JobDocument>("Job", jobSchema);
